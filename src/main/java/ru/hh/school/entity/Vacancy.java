@@ -1,38 +1,44 @@
 package ru.hh.school.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-//TODO: оформите entity
+@Entity
+@Table(name = "vacancy")
 public class Vacancy {
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "vacancy_id")
   private Integer id;
 
-  private Employer employer;
-
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "area_id")
   private Area area;
 
+  @Column(name = "title")
   private String title;
 
+  @Column(name = "description")
   private String description;
 
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "employer_id")
+  private Employer employer;
+
+  @Column(name = "compensation_from")
   private Integer compensationFrom;
 
+  @Column(name = "compensation_to")
   private Integer  compensationTo;
 
+  @Column(name = "compensation_gross")
   private Boolean compensationGross;
 
+  @Column(name = "creation_time")
   private LocalDateTime creationTime;
 
+  @Column(name = "archiving_time")
   private LocalDateTime archivingTime;
 
   public Vacancy() {
@@ -40,6 +46,10 @@ public class Vacancy {
 
   public Vacancy(Employer employer) {
     this.employer = employer;
+  }
+
+  public Area getArea() {
+    return area;
   }
 
   public void setArea(Area area) {
@@ -54,14 +64,6 @@ public class Vacancy {
     this.id = id;
   }
 
-  public Employer getEmployer() {
-    return employer;
-  }
-
-  public void setEmployer(Employer employer) {
-    this.employer = employer;
-  }
-
   public String getTitle() {
     return title;
   }
@@ -70,12 +72,32 @@ public class Vacancy {
     this.title = title;
   }
 
+  public String getDescription() {
+    return description;
+  }
+
   public void setDescription(String description) {
     this.description = description;
   }
 
+  public Employer getEmployer() {
+    return employer;
+  }
+
+  public void setEmployer(Employer employer) {
+    this.employer = employer;
+  }
+
+  public Integer getCompensationFrom() {
+    return compensationFrom;
+  }
+
   public void setCompensationFrom(Integer compensationFrom) {
     this.compensationFrom = compensationFrom;
+  }
+
+  public Integer getCompensationTo() {
+    return compensationTo;
   }
 
   public void setCompensationTo(Integer compensationTo) {
@@ -100,7 +122,6 @@ public class Vacancy {
 
   @Override
   public int hashCode() {
-    return 17;
+    return id;
   }
-
 }
